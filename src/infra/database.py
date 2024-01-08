@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 from sqlalchemy import DECIMAL, Column, DateTime, Integer, String
 from sqlalchemy.ext.asyncio import (  # type: ignore
@@ -29,8 +29,9 @@ def get_session_maker() -> Any:
     return async_sessionmaker(engine, expire_on_commit=False)
 
 
-async def create_database() -> None:
-    url = settings.db_prod if settings.environment != "TEST" else settings.db_test
+async def create_database(url: Optional[str] = None) -> None:
+    if not url:
+        url = settings.db_prod if settings.environment != "TEST" else settings.db_test
     engine = create_async_engine(
         url,
         echo=False,
