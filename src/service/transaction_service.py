@@ -16,16 +16,14 @@ class TransactionService:
         await self.generator_transaction(transaction)
 
     async def generator_transaction(self, transaction: BaseTransaction) -> None:
-        list_transaction = []
-        for _ in range(transaction.amount_of_stocks):
-            list_transaction.append(
-                Transaction(
-                    stock_code=transaction.stock_code[
-                        random.randint(0, len(transaction.stock_code) - 1)
-                    ],
-                )
+        list_transaction = [
+            Transaction(
+                stock_code=transaction.stock_code[
+                    random.randint(0, len(transaction.stock_code) - 1)
+                ],
             )
-
+            for _ in range(transaction.amount_of_stocks)
+        ]
         await asyncio.gather(
             *[self.save_transaction(transaction) for transaction in list_transaction]
         )
