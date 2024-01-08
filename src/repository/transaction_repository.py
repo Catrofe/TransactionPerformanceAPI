@@ -6,13 +6,16 @@ class TransactionRepository:
     def __init__(self) -> None:
         self.sessionmaker = get_session_maker()
 
-    async def save_transaction(self, transaction: TransactionModel) -> None:
+    async def save_transaction_all(self, transactions: list[TransactionModel]) -> None:
         async with self.sessionmaker() as session:
             async with session.begin():
-                save = Transaction(
-                    stock_code=transaction.stock_code,
-                    value=transaction.value,
-                    created_at=transaction.created_at,
-                )
-                session.add(save)
+                save = [
+                    Transaction(
+                        stock_code=transaction.stock_code,
+                        value=transaction.value,
+                        created_at=transaction.created_at,
+                    )
+                    for transaction in transactions
+                ]
+                session.add_all(save)
                 await session.commit()
