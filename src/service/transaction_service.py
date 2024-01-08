@@ -1,3 +1,4 @@
+import asyncio
 import random
 
 from src.model.transaction_model import BaseTransaction, Transaction
@@ -22,5 +23,11 @@ class TransactionService:
         ]
         await self.save_transaction_all(list_transaction)
 
-    async def save_transaction_all(self, transactions: list[Transaction]) -> None:
-        await self.__repository.save_transaction_all(transactions)
+    async def save_transaction_all(
+        self, transactions: list[Transaction], batch_size: int = 10000
+    ) -> None:
+        tasks = [
+            self.__repository.save_transaction_all(transactions[i : i + batch_size])
+            for i in range(0, len(transactions), batch_size)
+        ]
+        await asyncio.gather(*tasks)
