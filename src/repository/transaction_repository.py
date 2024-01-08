@@ -1,11 +1,12 @@
-from src.infra.database import get_session_maker, Transaction
+from src.infra.database import Transaction, get_session_maker
+from src.model.transaction_model import Transaction as TransactionModel
 
 
 class TransactionRepository:
-    def __init__(self):
+    def __init__(self) -> None:
         self.sessionmaker = get_session_maker()
 
-    async def save_transaction(self, transaction: Transaction):
+    async def save_transaction(self, transaction: TransactionModel) -> None:
         async with self.sessionmaker() as session:
             async with session.begin():
                 save = Transaction(
@@ -15,5 +16,3 @@ class TransactionRepository:
                 )
                 session.add(save)
                 await session.commit()
-
-        return transaction
