@@ -36,7 +36,7 @@ O Asyncio.gather faz com que objetos aguardaveis sejam executados de forma conco
 
 
 ## Terceiro cenário de 15k Transações
-commit: https://github.com/Catrofe/TransactionPerformanceAPI/tree/574a7d35798d09b62b7fdee868817d89707afbf8
+Commit: https://github.com/Catrofe/TransactionPerformanceAPI/tree/574a7d35798d09b62b7fdee868817d89707afbf8
 
 Esse foi uma solução extremamente simples que não me orgulho em ter demorado a pensar. Até o momento meu código fazia o seguinte: <br>
 - Eu gerava 1 transação e postava ela no banco e repetia esse processo 15.000 vezes. <br>
@@ -48,8 +48,23 @@ A solução foi simples, eu gerei as 15.000 transações e persisti todas ao mes
 Reduzi meu tempo em quase 90% e ainda assim acho que posso melhorar essa performance.
 
 
+## Quarto cenário de 15k Transações
+Commit: https://github.com/Catrofe/TransactionPerformanceAPI/tree/c894dc21b9a641ac7bf0274845a0a690a89c9c97
+
+Bom, nessa solução voltamos ao banco de dados novamente. Ok, eu estava inserindo transação por transação e com certeza ele me odiou por isso, então eu forcei 15k de escritas de uma só vez. Nesse momento ele deve ter ficado um pouco mais contente porem ainda assim não era o ideal e novamente ele era meu gargalo.<br>
+Consegui atingir cerca de **900ms** em alguns testes e eu estava bem feliz, porem não me sentia contente, o teste parecia não exibir o verdadeiro "potencial".<br>
+
+Com base nisso aumentei para 100k requisições e no meu primeiro cenário eu tive cerca de 8 segundos de tempo de resposta. Isso foi tenebroso eu diria.
+Voltei ao gargalo do banco e comecei a procurar formas de melhorar isso de diversas formas, por fim eu particionei a minha lista em 10k requisições que lidou muito bem com 15k, 100k requisições.
+
+
 ## Considerações finais até o momento
 
 - 08/01/2024
   Nessa data eu ainda estou no Terceiro cenário, pretendo continuar estudando formas de melhorar cada vez mais a performance desse código dentro do aceitável. <br>
   Se eu conseguir farei um push e adicionarei a descrição do novo cenário.
+
+-08/01/2024
+  Tempos de resposta:
+  - 15k -- 550ms
+  - 100k 3.5s
