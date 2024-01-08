@@ -64,7 +64,7 @@ Voltei ao gargalo do banco e comecei a procurar formas de melhorar isso de diver
   Nessa data eu ainda estou no Terceiro cenário, pretendo continuar estudando formas de melhorar cada vez mais a performance desse código dentro do aceitável. <br>
   Se eu conseguir farei um push e adicionarei a descrição do novo cenário.
 
--08/01/2024
+- 08/01/2024
   Tempos de resposta:
   - 15k -- 550ms
   - 100k 3.5s
