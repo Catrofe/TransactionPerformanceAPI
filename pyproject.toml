@@ -13,6 +13,7 @@ pytest-random-order = "^1.1.0"
 sqlalchemy2-stubs = "^0.0.2a38"
 asyncpg = "^0.29.0"
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.25"}
+gunicorn = "^22.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

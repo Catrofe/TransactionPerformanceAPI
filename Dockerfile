@@ -3,10 +3,13 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
-COPY pyproject.toml .
+COPY pyproject.toml poetry.lock ./
+
+RUN apk add --no-cache gcc musl-dev libpq-dev \
+    && pip install poetry \
+    && poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
+
 COPY src /app/src
 
-RUN pip install poetry
-RUN poetry install
-
-CMD ["poetry", "run", "uvicorn", "src.app:app"]
+CMD ["poetry", "run", "uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
